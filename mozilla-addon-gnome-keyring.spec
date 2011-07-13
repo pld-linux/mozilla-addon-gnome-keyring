@@ -2,7 +2,7 @@
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-%{extension}
 Version:	0.5.1
-Release:	0.1
+Release:	0.2
 License:	GPL
 Group:		X11/Applications/Networking
 Source0:	https://github.com/mdlavin/firefox-gnome-keyring/tarball/master#/%{name}-%{version}.tgz
@@ -69,5 +69,6 @@ rm -rf $RPM_BUILD_ROOT
 %{extensionsdir}/%{extension_id}/chrome.manifest
 %{extensionsdir}/%{extension_id}/install.rdf
 %dir %{extensionsdir}/%{extension_id}/platform
+%dir %{extensionsdir}/%{extension_id}/platform/Linux_*-gcc3
 %dir %{extensionsdir}/%{extension_id}/platform/Linux_*-gcc3/components
 %attr(755,root,root) %{extensionsdir}/%{extension_id}/platform/Linux_*-gcc3/components/libgnomekeyring.so
