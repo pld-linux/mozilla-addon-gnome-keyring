@@ -1,12 +1,12 @@
 %define		extension gnome-keyring
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-%{extension}
-Version:	0.5.1
-Release:	0.2
+Version:	0.5.1.1
+Release:	0.1
 License:	GPL
 Group:		X11/Applications/Networking
 Source0:	https://github.com/mdlavin/firefox-gnome-keyring/tarball/master#/%{name}-%{version}.tgz
-# Source0-md5:	148bf938edeaa641aa5b6c7f70bbf599
+# Source0-md5:	18335895a18ea14a2c221559ed848018
 URL:		https://github.com/mdlavin/firefox-gnome-keyring
 BuildRequires:	libgnome-keyring-devel
 BuildRequires:	libstdc++-devel
@@ -19,12 +19,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 # this comes from install.rdf
 %define		extension_id	\{6f9d85e0-794d-11dd-ad8b-0800200c9a66\}
 %define		extensionsdir	%{_libdir}/mozilla/extensions
-%ifarch %{ix86}
-%define		arch	x86
-%endif
-%ifarch %{x8664}
-%define		arch	x86_64
-%endif
+%define		platform		%(gcc --version --verbose 2>&1 | grep 'Target:' | cut '-d ' -f2)
 
 %description
 This extension replaces the default password manager in both Firefox
@@ -38,21 +33,12 @@ password after Firefox or Thunderbird has been started.
 %setup -qc
 mv *-gnome-keyring-*/* .
 
-rm -vf *.xpi
-rm -rf lib
-
-# remove dep to build both arch
-sed -i -e ' /^build-xpi:/s,build-library-.*,,' Makefile
-
-grep 'VERSION.*= %{version}' Makefile
-
 %build
 # build ext for current arch only
-%{__make} build-library-%{arch} \
+%{__make} build-xpi \
+	VERSION=%{version} \
 	CXX="%{__cxx}" \
 	CXXFLAGS="%{rpmcxxflags}"
-# this one will subst version in install.rdf
-%{__make} build-xpi
 
 %install
 rm -rf $RPM_BUILD_ROOT
@@ -69,6 +55,6 @@ rm -rf $RPM_BUILD_ROOT
 %{extensionsdir}/%{extension_id}/chrome.manifest
 %{extensionsdir}/%{extension_id}/install.rdf
 %dir %{extensionsdir}/%{extension_id}/platform
-%dir %{extensionsdir}/%{extension_id}/platform/Linux_*-gcc3
-%dir %{extensionsdir}/%{extension_id}/platform/Linux_*-gcc3/components
-%attr(755,root,root) %{extensionsdir}/%{extension_id}/platform/Linux_*-gcc3/components/libgnomekeyring.so
+%dir %{extensionsdir}/%{extension_id}/platform/%{platform}
+%dir %{extensionsdir}/%{extension_id}/platform/%{platform}/components
+%attr(755,root,root) %{extensionsdir}/%{extension_id}/platform/%{platform}/components/libgnomekeyring.so
