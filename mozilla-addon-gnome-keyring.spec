@@ -8,11 +8,12 @@ Group:		X11/Applications/Networking
 Source0:	https://github.com/infinity0/mozilla-gnome-keyring/tarball/%{version}/%{name}-%{version}.tgz
 # Source0-md5:	078ad1df972de74d8a60f4feead0c053
 URL:		https://github.com/infinity0/mozilla-gnome-keyring/
-BuildRequires:	libgnome-keyring-devel
+BuildRequires:	libgnome-keyring-devel >= 3.4.0
 BuildRequires:	libstdc++-devel
 BuildRequires:	pkg-config
 BuildRequires:	xulrunner-devel
 BuildRequires:	zip
+Requires:	libgnome-keyring >= 3.4.0
 %requires_eq_to	xulrunner xulrunner-devel
 ExclusiveArch:	%{x8664} %{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
