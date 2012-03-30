@@ -6,7 +6,7 @@ Release:	1
 License:	GPL
 Group:		X11/Applications/Networking
 Source0:	https://github.com/infinity0/mozilla-gnome-keyring/tarball/%{version}/%{name}-%{version}.tgz
-# Source0-md5:	9c7ddba8fcf6775542ad7c7d3945a28d
+# Source0-md5:	078ad1df972de74d8a60f4feead0c053
 URL:		https://github.com/infinity0/mozilla-gnome-keyring/
 BuildRequires:	libgnome-keyring-devel
 BuildRequires:	libstdc++-devel
