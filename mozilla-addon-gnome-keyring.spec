@@ -2,7 +2,7 @@
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-%{extension}
 Version:	0.6.1
-Release:	3
+Release:	4
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	https://github.com/infinity0/mozilla-gnome-keyring/tarball/%{version}/%{name}-%{version}.tgz
@@ -44,6 +44,9 @@ password after Firefox or Thunderbird has been started.
 mv *-gnome-keyring-*/* .
 
 %{__sed} -i -e '/^CXXFLAGS/ s/$/ $(OPTFLAGS)/' Makefile
+
+# keep minversion
+%{__sed} -i -e 's/XUL_VER_MIN=$(XUL_VERSION)/XUL_VER_MIN=/' Makefile
 
 %build
 # build ext for current arch only
