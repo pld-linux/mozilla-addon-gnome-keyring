@@ -1,12 +1,12 @@
 %define		extension gnome-keyring
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-%{extension}
-Version:	0.6.1
-Release:	9
+Version:	0.6.5
+Release:	1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	https://github.com/infinity0/mozilla-gnome-keyring/tarball/%{version}/%{name}-%{version}.tgz
-# Source0-md5:	078ad1df972de74d8a60f4feead0c053
+# Source0-md5:	38dd3bd872d5b446b2fe8c1f899a810e
 URL:		https://github.com/infinity0/mozilla-gnome-keyring/
 BuildRequires:	libgnome-keyring-devel >= 3.4.0
 BuildRequires:	libstdc++-devel
