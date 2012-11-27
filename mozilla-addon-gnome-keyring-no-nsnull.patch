@@ -1,0 +1,29 @@
+--- mozilla-addon-gnome-keyring-0.6.1/GnomeKeyring.cpp~	2012-02-14 00:15:56.000000000 +0100
++++ mozilla-addon-gnome-keyring-0.6.1/GnomeKeyring.cpp	2012-11-27 11:32:56.351868118 +0100
+@@ -139,7 +139,7 @@
+ template<class T, void F(T *)>
+ class AutoPtr {
+   public:
+-    AutoPtr() : mPtr(nsnull) { }
++    AutoPtr() : mPtr(NULL) { }
+ 
+     operator T*() {
+       return mPtr;
+@@ -449,7 +449,7 @@
+ {
+   nsCOMPtr<nsILoginInfo> loginInfo = do_CreateInstance(NS_LOGININFO_CONTRACTID);
+   if (!loginInfo)
+-    return nsnull;
++    return NULL;
+ 
+   loginInfo->SetPassword(NS_ConvertUTF8toUTF16(found->secret));
+ 
+@@ -587,7 +587,7 @@
+                                         getter_AddRefs(prefService));
+   if (ret != NS_OK) { return ret; }
+ 
+-  ret = prefService->ReadUserPrefs(nsnull);
++  ret = prefService->ReadUserPrefs(NULL);
+   if (ret != NS_OK) { return ret; }
+ 
+   ret = prefService->GetBranch(kPrefsBranch, getter_AddRefs(pref));
