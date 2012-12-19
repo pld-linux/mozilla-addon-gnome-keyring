@@ -1,12 +1,12 @@
 %define		extension gnome-keyring
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-%{extension}
-Version:	0.6.1
-Release:	11
+Version:	0.6.5
+Release:	1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	https://github.com/infinity0/mozilla-gnome-keyring/tarball/%{version}/%{name}-%{version}.tgz
-# Source0-md5:	078ad1df972de74d8a60f4feead0c053
+# Source0-md5:	38dd3bd872d5b446b2fe8c1f899a810e
 Patch0:		%{name}-no-nsnull.patch
 URL:		https://github.com/infinity0/mozilla-gnome-keyring/
 BuildRequires:	libgnome-keyring-devel >= 3.4.0
@@ -47,15 +47,13 @@ mv *-gnome-keyring-*/* .
 
 %{__sed} -i -e '/^CXXFLAGS/ s/$/ $(OPTFLAGS)/' Makefile
 
-# keep minversion
-%{__sed} -i -e 's/XUL_VER_MIN=$(XUL_VERSION)/XUL_VER_MIN=/' Makefile
-
 %build
 # build ext for current arch only
 %{__make} build-xpi \
 	PLATFORM=%{platform} \
 	VERSION=%{version} \
 	CXX="%{__cxx}" \
+	LDFLAGS="%{rpmldflags}" \
 	OPTFLAGS="%{rpmcxxflags}"
 
 %install
@@ -70,7 +68,9 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %dir %{extensionsdir}/%{extension_id}
+%{extensionsdir}/%{extension_id}/chrome
 %{extensionsdir}/%{extension_id}/chrome.manifest
+%{extensionsdir}/%{extension_id}/defaults
 %{extensionsdir}/%{extension_id}/install.rdf
 %dir %{extensionsdir}/%{extension_id}/platform
 %dir %{extensionsdir}/%{extension_id}/platform/%{platform}
