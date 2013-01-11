@@ -1,0 +1,22 @@
+diff -ur mozilla-addon-gnome-keyring-0.6.5/GnomeKeyring.cpp mozilla-addon-gnome-keyring-0.6.5.new/GnomeKeyring.cpp
+--- mozilla-addon-gnome-keyring-0.6.5/GnomeKeyring.cpp	2013-01-11 13:41:54.065028226 +0100
++++ mozilla-addon-gnome-keyring-0.6.5.new/GnomeKeyring.cpp	2013-01-11 13:41:09.427955750 +0100
+@@ -36,6 +36,8 @@
+  * the terms of any one of the MPL, the GPL or the LGPL.
+  *
+  * ***** END LICENSE BLOCK ***** */
++#define __STDC_LIMIT_MACROS
++#include <stdint.h>
+ 
+ #include "GnomeKeyring.h"
+ #include "nsMemory.h"
+diff -ur mozilla-addon-gnome-keyring-0.6.5/xpcom_abi.cpp mozilla-addon-gnome-keyring-0.6.5.new/xpcom_abi.cpp
+--- mozilla-addon-gnome-keyring-0.6.5/xpcom_abi.cpp	2013-01-11 13:41:54.065028226 +0100
++++ mozilla-addon-gnome-keyring-0.6.5.new/xpcom_abi.cpp	2013-01-11 13:39:37.553786774 +0100
+@@ -1,4 +1,6 @@
+ #include <stdio.h>
++#define __STDC_LIMIT_MACROS
++#include <stdint.h>
+ 
+ #include "nsIXULRuntime.h"
+ #include "nsServiceManagerUtils.h"
