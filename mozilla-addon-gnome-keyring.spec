@@ -1,14 +1,12 @@
 %define		extension gnome-keyring
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-%{extension}
-Version:	0.6.5
-Release:	4
+Version:	0.6.7
+Release:	1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
-Source0:	https://github.com/infinity0/mozilla-gnome-keyring/tarball/%{version}/%{name}-%{version}.tgz
-# Source0-md5:	38dd3bd872d5b446b2fe8c1f899a810e
-Patch0:		%{name}-no-nsnull.patch
-Patch1:		%{name}-stdint.patch
+Source0:	https://github.com/infinity0/mozilla-gnome-keyring/archive/%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	c69d2816e0543baec478ab9d57a38e43
 URL:		https://github.com/infinity0/mozilla-gnome-keyring/
 BuildRequires:	libgnome-keyring-devel >= 3.4.0
 BuildRequires:	libstdc++-devel
@@ -16,7 +14,6 @@ BuildRequires:	pkg-config
 BuildRequires:	xulrunner-devel
 BuildRequires:	zip
 Requires:	libgnome-keyring >= 3.4.0
-%requires_eq_to	xulrunner-libs xulrunner-devel
 ExclusiveArch:	%{x8664} %{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -42,10 +39,7 @@ This allows for safe storage of passwords without prompting for
 password after Firefox or Thunderbird has been started.
 
 %prep
-%setup -qc
-mv *-gnome-keyring-*/* .
-%patch0 -p1
-%patch1 -p1
+%setup -qn mozilla-gnome-keyring-%{version}
 
 %{__sed} -i -e '/^CXXFLAGS/ s/$/ $(OPTFLAGS)/' Makefile
 
@@ -54,6 +48,7 @@ mv *-gnome-keyring-*/* .
 %{__make} build-xpi \
 	PLATFORM=%{platform} \
 	VERSION=%{version} \
+	XUL_VER_MIN=17.0 \
 	CXX="%{__cxx}" \
 	LDFLAGS="%{rpmldflags}" \
 	OPTFLAGS="%{rpmcxxflags} -fpermissive"
