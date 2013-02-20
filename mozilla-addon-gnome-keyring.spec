@@ -7,6 +7,7 @@ License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	https://github.com/infinity0/mozilla-gnome-keyring/archive/%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	c69d2816e0543baec478ab9d57a38e43
+Patch0:	make.patch
 URL:		https://github.com/infinity0/mozilla-gnome-keyring/
 BuildRequires:	libgnome-keyring-devel >= 3.4.0
 BuildRequires:	libstdc++-devel
@@ -40,6 +41,7 @@ password after Firefox or Thunderbird has been started.
 
 %prep
 %setup -qn mozilla-gnome-keyring-%{version}
+%patch0 -p1
 
 %{__sed} -i -e '/^CXXFLAGS/ s/$/ $(OPTFLAGS)/' Makefile
 

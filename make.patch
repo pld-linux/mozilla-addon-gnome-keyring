@@ -1,0 +1,17 @@
+--- mozilla-gnome-keyring-0.6.7/Makefile~	2013-02-20 20:41:07.000000000 +0200
++++ mozilla-gnome-keyring-0.6.7/Makefile	2013-02-20 20:44:08.144362897 +0200
+@@ -63,12 +63,13 @@
+ 
+ build: build-xpi
+ 
+-build-xpi: xpcom_abi
+ ifeq "$(PLATFORM)" "unknown"
++build-xpi: xpcom_abi
+ # set PLATFORM properly in a sub-make
+ 	PLATFORM=$$(./xpcom_abi) && \
+ 	$(MAKE) -f $(lastword $(MAKEFILE_LIST)) $(XPI_TARGET) PLATFORM=$${PLATFORM}
+ else
++build-xpi:
+ 	$(MAKE) -f $(lastword $(MAKEFILE_LIST)) $(XPI_TARGET)
+ endif
+ 
