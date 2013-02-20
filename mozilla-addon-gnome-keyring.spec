@@ -16,7 +16,7 @@ BuildRequires:	pkg-config
 BuildRequires:	xulrunner-devel
 BuildRequires:	zip
 Requires:	libgnome-keyring >= 3.4.0
-%requires_eq_to	xulrunner xulrunner-devel
+%requires_eq_to	xulrunner-libs xulrunner-devel
 ExclusiveArch:	%{x8664} %{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
