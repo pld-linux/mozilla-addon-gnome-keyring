@@ -1,13 +1,12 @@
 %define		extension gnome-keyring
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-%{extension}
-Version:	0.6.9
-Release:	4
+Version:	0.6.11
+Release:	1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	https://github.com/infinity0/mozilla-gnome-keyring/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	eedd226a6f866ae3091ca79b3bdeabad
-Patch0:		xulrunner-27.patch
+# Source0-md5:	f6abf2e5bc5de7ad3472998bfd68a763
 URL:		https://github.com/infinity0/mozilla-gnome-keyring/
 BuildRequires:	libgnome-keyring-devel >= 3.4.0
 BuildRequires:	libstdc++-devel
@@ -41,7 +40,6 @@ password after Firefox or Thunderbird has been started.
 
 %prep
 %setup -qn mozilla-gnome-keyring-%{version}
-%patch0 -p1
 
 %{__sed} -i -e '/^CXXFLAGS/ s/$/ $(OPTFLAGS)/' Makefile
 
