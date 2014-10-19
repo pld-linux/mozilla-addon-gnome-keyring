@@ -1,0 +1,10 @@
+--- mozilla-gnome-keyring-0.6.11/GnomeKeyring.h~	2014-10-18 22:19:04.000000000 +0200
++++ mozilla-gnome-keyring-0.6.11/GnomeKeyring.h	2014-10-18 22:23:16.478743383 +0200
+@@ -84,6 +84,7 @@
+   GnomeKeyringResult
+   findHostItemsAll(GList** found);
+ 
++  ~GnomeKeyring() {}
+ public:
+   NS_DECL_ISUPPORTS
+   NS_DECL_NSILOGINMANAGERSTORAGE
