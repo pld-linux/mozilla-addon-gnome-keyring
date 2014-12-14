@@ -2,7 +2,7 @@
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-%{extension}
 Version:	0.6.11
-Release:	4
+Release:	5
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	https://github.com/infinity0/mozilla-gnome-keyring/archive/%{version}/%{name}-%{version}.tar.gz
@@ -65,6 +65,15 @@ cp -a xpi/* $RPM_BUILD_ROOT%{extensionsdir}/%{extension_id}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
+
+%triggerin -- icedove
+test -L %{_libdir}/icedove/extensions/%{extension_id} || \
+	ln -sf %{extensionsdir}/%{extension_id} %{_libdir}/icedove/extensions/%{extension_id}
+
+%triggerun -- icedove
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/icedove/extensions/%{extension_id} ]; then
+	rm -f %{_libdir}/icedove/extensions/%{extension_id}
+fi
 
 %files
 %defattr(644,root,root,755)
