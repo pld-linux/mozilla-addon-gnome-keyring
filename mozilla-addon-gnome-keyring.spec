@@ -54,7 +54,7 @@ password after Firefox or Thunderbird has been started.
 	VERSION=%{version} \
 	XUL_VER_MIN=17.0 \
 	CXX="%{__cxx}" \
-	LDFLAGS="%{rpmldflags}" \
+	LDFLAGS="%{rpmldflags} -pthread" \
 	OPTFLAGS="%{rpmcxxflags} -fpermissive"
 
 %install
