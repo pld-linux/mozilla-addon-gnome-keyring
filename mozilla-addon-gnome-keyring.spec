@@ -1,7 +1,9 @@
+# TODO
+# - setup symlink for firefox in post script
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-gnome-keyring
 Version:	0.10
-Release:	2
+Release:	3
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	https://github.com/swick/mozilla-gnome-keyring/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -10,7 +12,8 @@ Patch0:		firefox-version.patch
 URL:		https://github.com/swick/mozilla-gnome-keyring/
 # libgnome-keyring.so.0 is dlopened (content/gnome-keyring.js)
 Requires:	libgnome-keyring
-BuildArch:	noarch
+# not noarch due %{_libdir} use
+#BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # this comes from install.rdf
