@@ -1,36 +1,23 @@
-%define		extension gnome-keyring
 Summary:	Extension that enables Gnome Keyring integration
-Name:		mozilla-addon-%{extension}
-Version:	0.6.11
-Release:	10
+Name:		mozilla-addon-gnome-keyring
+Version:	0.10
+Release:	1
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
-Source0:	https://github.com/infinity0/mozilla-gnome-keyring/archive/%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	f6abf2e5bc5de7ad3472998bfd68a763
-Patch0:		firefox-32.patch
-Patch1:		firefox-33.patch
-URL:		https://github.com/infinity0/mozilla-gnome-keyring/
-BuildRequires:	libgnome-keyring-devel >= 3.4.0
-BuildRequires:	libstdc++-devel
-BuildRequires:	pkg-config
-BuildRequires:	xulrunner-devel
-BuildRequires:	zip
-Requires:	libgnome-keyring >= 3.4.0
-ExclusiveArch:	%{x8664} %{ix86}
+Source0:	https://github.com/swick/mozilla-gnome-keyring/archive/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	e633c093acd2ab86d342fb83fefb95f0
+Patch0:		firefox-version.patch
+URL:		https://github.com/swick/mozilla-gnome-keyring/
+Requires:	libsecret
+BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 # this comes from install.rdf
-%define		extension_id	\{6f9d85e0-794d-11dd-ad8b-0800200c9a66\}
-%define		extensionsdir	%{_libdir}/mozilla/extensions
+%define		extension_ffox_id	\{ec8030f7-c20a-464f-9b0e-13a3a9e97384\}
+%define		extension_tbird_id	\{3550f703-e582-4d05-9a08-453d09bdfdc6\}
+%define		extension_id		gnome-keyring-integration@sebastianwick.net
 
-# https://developer.mozilla.org/en/XPCOM_ABI#ABI_Naming
-%define		platform		unknown
-%ifarch %{ix86}
-%define		platform		Linux_x86-gcc3
-%endif
-%ifarch %{x8664}
-%define		platform		Linux_x86_64-gcc3
-%endif
+%define		extensionsdir		/usr/lib/mozilla/extensions
 
 %description
 This extension replaces the default password manager in both Firefox
@@ -43,46 +30,41 @@ password after Firefox or Thunderbird has been started.
 %prep
 %setup -qn mozilla-gnome-keyring-%{version}
 %patch0 -p1
-%patch1 -p1
-
-%{__sed} -i -e '/^CXXFLAGS/ s/$/ $(OPTFLAGS)/' Makefile
 
 %build
-# build ext for current arch only
-%{__make} build-xpi \
-	PLATFORM=%{platform} \
-	VERSION=%{version} \
-	XUL_VER_MIN=17.0 \
-	CXX="%{__cxx}" \
-	LDFLAGS="%{rpmldflags} -pthread" \
-	OPTFLAGS="%{rpmcxxflags} -fpermissive"
+%{__make}
 
 %install
 rm -rf $RPM_BUILD_ROOT
-# Install Gecko extension
-install -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_id}
-cp -a xpi/* $RPM_BUILD_ROOT%{extensionsdir}/%{extension_id}
+
+install -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_ffox_id}/%{extension_id}
+install -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_tbird_id}
+
+ln -s %{extensionsdir}/%{extension_ffox_id}/%{extension_id} $RPM_BUILD_ROOT%{extensionsdir}/%{extension_tbird_id}/%{extension_id}
+
+unzip bin/*.xpi -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_ffox_id}/%{extension_id}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %triggerin -- icedove
-test -L %{_libdir}/icedove/extensions/%{extension_id} || \
-	ln -sf %{extensionsdir}/%{extension_id} %{_libdir}/icedove/extensions/%{extension_id}
+test -L %{_libdir}/icedove/extensions/%{extension_tbird_id} || \
+	ln -sf %{extensionsdir}/%{extension_tbird_id} %{_libdir}/icedove/extensions/%{extension_tbird_id}
 
 %triggerun -- icedove
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/icedove/extensions/%{extension_id} ]; then
-	rm -f %{_libdir}/icedove/extensions/%{extension_id}
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/icedove/extensions/%{extension_tbird_id} ]; then
+	rm -f %{_libdir}/icedove/extensions/%{extension_tbird_id}
 fi
 
 %files
 %defattr(644,root,root,755)
-%dir %{extensionsdir}/%{extension_id}
-%{extensionsdir}/%{extension_id}/chrome
-%{extensionsdir}/%{extension_id}/chrome.manifest
-%{extensionsdir}/%{extension_id}/defaults
-%{extensionsdir}/%{extension_id}/install.rdf
-%dir %{extensionsdir}/%{extension_id}/platform
-%dir %{extensionsdir}/%{extension_id}/platform/%{platform}
-%dir %{extensionsdir}/%{extension_id}/platform/%{platform}/components
-%attr(755,root,root) %{extensionsdir}/%{extension_id}/platform/%{platform}/components/libgnomekeyring.so
+%dir %{extensionsdir}/%{extension_ffox_id}
+%dir %{extensionsdir}/%{extension_ffox_id}/%{extension_id}
+%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/chrome.manifest
+%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/install.rdf
+%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/chrome
+%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/components
+%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/content
+%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/defaults
+%dir %{extensionsdir}/%{extension_tbird_id}
+%{extensionsdir}/%{extension_tbird_id}/%{extension_id}
