@@ -12,7 +12,7 @@ Patch0:		firefox-version.patch
 URL:		https://github.com/swick/mozilla-gnome-keyring/
 # libgnome-keyring.so.0 is dlopened (content/gnome-keyring.js)
 Requires:	libgnome-keyring
-# not noarch due %{_libdir} use
+# not noarch due to %{_libdir} use in triggers
 #BuildArch:	noarch
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
