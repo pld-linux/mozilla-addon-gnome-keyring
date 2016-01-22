@@ -65,7 +65,7 @@ fi
 test -L %{iceweasel_dir}/%{extension_id} || \
 	ln -sf %{extensionsdir}/%{extension_id} %{iceweasel_dir}/%{extension_id}
 
-%triggerun -- icedove
+%triggerun -- iceweasel
 if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{iceweasel_dir}/%{extension_id} ]; then
 	rm -f %{iceweasel_dir}/%{extension_id}
 fi
