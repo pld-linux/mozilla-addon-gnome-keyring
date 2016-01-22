@@ -43,37 +43,31 @@ password after Firefox or Thunderbird has been started.
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_ffox_id}/%{extension_id}
-install -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_tbird_id}
-
-ln -s %{extensionsdir}/%{extension_ffox_id}/%{extension_id} $RPM_BUILD_ROOT%{extensionsdir}/%{extension_tbird_id}/%{extension_id}
-
-unzip bin/*.xpi -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_ffox_id}/%{extension_id}
+install -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_id}
+unzip bin/*.xpi -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_id}
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %triggerpostun -- %{name} < 0.10-4
 rm -f %{_libdir}/icedove/extensions/"{6f9d85e0-794d-11dd-ad8b-0800200c9a66}"
+rm -f %{_libdir}/icedove/extensions/"{3550f703-e582-4d05-9a08-453d09bdfdc6}"
 
 %triggerin -- icedove
-test -L %{_libdir}/icedove/extensions/%{extension_tbird_id} || \
-	ln -sf %{extensionsdir}/%{extension_tbird_id} %{_libdir}/icedove/extensions/%{extension_tbird_id}
+test -L %{_libdir}/icedove/extensions/%{extension_id} || \
+	ln -sf %{extensionsdir}/%{extension_id} %{_libdir}/icedove/extensions/%{extension_id}
 
 %triggerun -- icedove
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/icedove/extensions/%{extension_tbird_id} ]; then
-	rm -f %{_libdir}/icedove/extensions/%{extension_tbird_id}
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/icedove/extensions/%{extension_id} ]; then
+	rm -f %{_libdir}/icedove/extensions/%{extension_id}
 fi
 
 %files
 %defattr(644,root,root,755)
-%dir %{extensionsdir}/%{extension_ffox_id}
-%dir %{extensionsdir}/%{extension_ffox_id}/%{extension_id}
-%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/chrome.manifest
-%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/install.rdf
-%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/chrome
-%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/components
-%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/content
-%{extensionsdir}/%{extension_ffox_id}/%{extension_id}/defaults
-%dir %{extensionsdir}/%{extension_tbird_id}
-%{extensionsdir}/%{extension_tbird_id}/%{extension_id}
+%dir %{extensionsdir}/%{extension_id}
+%{extensionsdir}/%{extension_id}/chrome.manifest
+%{extensionsdir}/%{extension_id}/install.rdf
+%{extensionsdir}/%{extension_id}/chrome
+%{extensionsdir}/%{extension_id}/components
+%{extensionsdir}/%{extension_id}/content
+%{extensionsdir}/%{extension_id}/defaults
