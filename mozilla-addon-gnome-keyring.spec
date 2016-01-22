@@ -1,5 +1,3 @@
-# TODO
-# - setup symlink for firefox in post script
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-gnome-keyring
 Version:	0.10
@@ -20,11 +18,12 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %define		_enable_debug_packages	0
 
 # this comes from install.rdf
-%define		extension_ffox_id	\{ec8030f7-c20a-464f-9b0e-13a3a9e97384\}
-%define		extension_tbird_id	\{3550f703-e582-4d05-9a08-453d09bdfdc6\}
 %define		extension_id		gnome-keyring-integration@sebastianwick.net
 
 %define		extensionsdir		/usr/lib/mozilla/extensions
+
+%define		iceweasel_dir	%{_datadir}/iceweasel/browser/extensions
+%define		icedove_dir		%{_libdir}/icedove/extensions
 
 %description
 This extension replaces the default password manager in both Firefox
@@ -50,16 +49,25 @@ unzip bin/*.xpi -d $RPM_BUILD_ROOT%{extensionsdir}/%{extension_id}
 rm -rf $RPM_BUILD_ROOT
 
 %triggerpostun -- %{name} < 0.10-4
-rm -f %{_libdir}/icedove/extensions/"{6f9d85e0-794d-11dd-ad8b-0800200c9a66}"
-rm -f %{_libdir}/icedove/extensions/"{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+rm -f %{icedove_dir}/"{6f9d85e0-794d-11dd-ad8b-0800200c9a66}"
+rm -f %{icedove_dir}/"{3550f703-e582-4d05-9a08-453d09bdfdc6}"
 
 %triggerin -- icedove
-test -L %{_libdir}/icedove/extensions/%{extension_id} || \
-	ln -sf %{extensionsdir}/%{extension_id} %{_libdir}/icedove/extensions/%{extension_id}
+test -L %{icedove_dir}/%{extension_id} || \
+	ln -sf %{extensionsdir}/%{extension_id} %{icedove_dir}/%{extension_id}
 
 %triggerun -- icedove
-if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{_libdir}/icedove/extensions/%{extension_id} ]; then
-	rm -f %{_libdir}/icedove/extensions/%{extension_id}
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{icedove_dir}/%{extension_id} ]; then
+	rm -f %{icedove_dir}/%{extension_id}
+fi
+
+%triggerin -- iceweasel
+test -L %{iceweasel_dir}/%{extension_id} || \
+	ln -sf %{extensionsdir}/%{extension_id} %{iceweasel_dir}/%{extension_id}
+
+%triggerun -- icedove
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{iceweasel_dir}/%{extension_id} ]; then
+	rm -f %{iceweasel_dir}/%{extension_id}
 fi
 
 %files
