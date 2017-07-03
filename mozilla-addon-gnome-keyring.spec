@@ -1,7 +1,7 @@
 Summary:	Extension that enables Gnome Keyring integration
 Name:		mozilla-addon-gnome-keyring
 Version:	0.10
-Release:	4
+Release:	5
 License:	MPL v1.1 or GPL v2+ or LGPL v2.1+
 Group:		X11/Applications/Networking
 Source0:	https://github.com/swick/mozilla-gnome-keyring/archive/v%{version}/%{name}-%{version}.tar.gz
@@ -24,6 +24,7 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %define		iceweasel_dir	%{_datadir}/iceweasel/browser/extensions
 %define		icedove_dir		%{_libdir}/icedove/extensions
+%define		thunderbird_dir	%{_libdir}/thunderbird/extensions
 
 %description
 This extension replaces the default password manager in both Firefox
@@ -67,6 +68,15 @@ test -L %{iceweasel_dir}/%{extension_id} || \
 
 %triggerun -- iceweasel
 if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{iceweasel_dir}/%{extension_id} ]; then
+	rm -f %{iceweasel_dir}/%{extension_id}
+fi
+
+%triggerin -- thunderbird
+test -L %{iceweasel_dir}/%{extension_id} || \
+	ln -sf %{extensionsdir}/%{extension_id} %{thunderbird_dir}/%{extension_id}
+
+%triggerun -- thunderbird
+if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{thunderbird_dir}/%{extension_id} ]; then
 	rm -f %{iceweasel_dir}/%{extension_id}
 fi
 
