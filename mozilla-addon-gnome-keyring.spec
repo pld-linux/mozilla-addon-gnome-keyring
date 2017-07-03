@@ -72,12 +72,12 @@ if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{iceweasel_dir}/%{extension_id} ]; 
 fi
 
 %triggerin -- thunderbird
-test -L %{iceweasel_dir}/%{extension_id} || \
+test -L %{thunderbird_dir}/%{extension_id} || \
 	ln -sf %{extensionsdir}/%{extension_id} %{thunderbird_dir}/%{extension_id}
 
 %triggerun -- thunderbird
 if [ "$1" = "0" ] || [ "$2" = "0" ] && [ -L %{thunderbird_dir}/%{extension_id} ]; then
-	rm -f %{iceweasel_dir}/%{extension_id}
+	rm -f %{thunderbird_dir}/%{extension_id}
 fi
 
 %files
