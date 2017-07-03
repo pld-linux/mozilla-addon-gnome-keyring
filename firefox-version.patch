@@ -1,20 +1,20 @@
---- mozilla-gnome-keyring-0.10/install.rdf~	2015-07-01 19:11:55.000000000 +0200
-+++ mozilla-gnome-keyring-0.10/install.rdf	2015-10-31 10:27:34.839480083 +0100
-@@ -20,7 +20,7 @@
+--- mozilla-gnome-keyring-0.12/install.rdf~	2016-09-24 06:02:03.000000000 +0300
++++ mozilla-gnome-keyring-0.12/install.rdf	2017-07-04 01:06:17.820545581 +0300
+@@ -21,7 +21,7 @@
        <Description>
          <em:id>{ec8030f7-c20a-464f-9b0e-13a3a9e97384}</em:id>
          <em:minVersion>4.0</em:minVersion>
--        <em:maxVersion>39.*</em:maxVersion>
-+        <em:maxVersion>50.*</em:maxVersion>
+-        <em:maxVersion>45.*</em:maxVersion>
++        <em:maxVersion>666.*</em:maxVersion>
        </Description>
      </em:targetApplication>
  
-@@ -29,7 +29,7 @@
+@@ -30,7 +30,7 @@
        <Description>
          <em:id>{3550f703-e582-4d05-9a08-453d09bdfdc6}</em:id>
          <em:minVersion>5.0</em:minVersion>
--        <em:maxVersion>39.*</em:maxVersion>
-+        <em:maxVersion>50.*</em:maxVersion>
+-        <em:maxVersion>45.*</em:maxVersion>
++        <em:maxVersion>666.*</em:maxVersion>
        </Description>
      </em:targetApplication>
    </Description>
