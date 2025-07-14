@@ -36,7 +36,7 @@ password after Firefox or Thunderbird has been started.
 
 %prep
 %setup -qn mozilla-gnome-keyring-%{version}
-%patch0 -p1
+%patch -P0 -p1
 
 %build
 %{__make}
